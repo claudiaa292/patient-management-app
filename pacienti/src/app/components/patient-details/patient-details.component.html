@@ -1,0 +1,432 @@
+<ng-container *ngIf="patient || mode === 'add'; else noPatient">
+    <div class="container mt-3">
+        <h4 class="text-center mb-4" *ngIf="mode === 'view'">Detalii pacient</h4>
+        <h4 class="text-center mb-4" *ngIf="mode === 'edit'">Editare pacient</h4>
+        <h4 class="text-center mb-4" *ngIf="mode === 'add'">Adăugare pacient</h4>
+
+        <form [formGroup]="form" (ngSubmit)="onSave()">
+            <div class="row">
+                <div class="col-md-5">
+                    <label>Nume</label>
+                    <input class="form-control" formControlName="family" [readonly]="mode === 'view'"
+                        (blur)="cleanName()" [ngClass]="{
+         'invalid-left-border': form.get('family')?.invalid &&
+                                form.get('family')?.touched &&
+                                form.get('family')?.value
+       }" />
+                    <div *ngIf="form.get('family')?.invalid && form.get('family')?.touched" class="text-danger mt-1">
+                        <small *ngIf="form.get('family')?.errors?.['required']">Numele este obligatoriu dacă prenumele
+                            este completat.</small>
+                        <small *ngIf="form.get('family')?.errors?.['pattern']">
+                            Numele poate conține doar litere, spații și cratimă (ex: Popescu-Ion).
+                        </small>
+                        <small *ngIf="form.get('family')?.errors?.['namePairInvalid']">
+                            Vă rugam completați ambele câmpuri: nume și prenume.
+                        </small>
+                    </div>
+
+                </div>
+                <div class="col-md-5">
+                    <label>Prenume</label>
+                    <input class="form-control" formControlName="given" [readonly]="mode === 'view'" [ngClass]="{
+           'invalid-left-border': form.get('given')?.invalid &&
+                                  form.get('given')?.touched &&
+                                  form.get('given')?.value
+         }" />
+                    <div *ngIf="form.get('given')?.invalid && form.get('given')?.touched" class="text-danger mt-1">
+                        <small *ngIf="form.get('given')?.errors?.['pattern']">
+                            Prenumele poate conține doar litere, spații sau cratimă.
+                        </small>
+                        <small *ngIf="form.get('given')?.errors?.['namePairInvalid']">
+                            Vă rugăm completați ambele câmpuri: nume și prenume.
+                        </small>
+
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <label>Inițiala tatălui</label>
+                    <input class="form-control" formControlName="prefix" [readonly]="mode === 'view'" [ngClass]="{
+           'invalid-left-border': form.get('prefix')?.invalid &&
+                                  form.get('prefix')?.touched &&
+                                  form.get('prefix')?.value
+         }" />
+                    <div *ngIf="form.get('prefix')?.invalid && form.get('prefix')?.touched" class="text-danger mt-1">
+                        <small *ngIf="form.get('prefix')?.errors?.['pattern']">1-3 litere cu majusculă</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label for="identifier">CNP</label>
+                    <input id="identifier" class="form-control" formControlName="identifier"
+                        [readonly]="mode === 'view'" [ngClass]="{
+           'invalid-left-border': form.get('identifier')?.invalid &&
+                                  form.get('identifier')?.touched &&
+                                  form.get('identifier')?.value
+         }" (input)="updateBirthDateFromIdentifier()" />
+                    <div *ngIf="form.get('identifier')?.invalid && form.get('identifier')?.touched"
+                        class="text-danger mt-1">
+                        <small *ngIf="form.get('identifier')?.errors?.['pattern']">CNP-ul trebuie sa aiba 13
+                            cifre.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="birthDate">Data nașterii</label>
+                    <input id="birthDate" type="date" class="form-control" formControlName="birthDate"
+                        [readonly]="mode === 'view'" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Sex</label>
+                    <div class="d-flex flex-wrap">
+                        <div class="form-check form-check-inline me-2"
+                            *ngFor="let gender of ['masculin', 'feminin', 'altul', 'necunoscut']">
+                            <input type="radio" class="form-check-input" formControlName="gender" [value]="gender"
+                                [id]="gender" [disabled]="mode === 'view'" />
+
+                            <label class="form-check-label" [for]="gender">{{ gender }}</label>
+                        </div>
+                    </div>
+                    <div *ngIf="form.get('gender')?.invalid && form.get('gender')?.touched" class="text-danger mt-1">
+                        <small>Sexul este obligatoriu.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-0 my-4">
+                <label class="form-label mb-2">Telefoane</label>
+
+                <div formArrayName="phones">
+                    <div *ngFor="let phone of phones.controls; let i = index" [formGroupName]="i" class="mb-2">
+
+                        <div class="d-flex gap-2">
+
+                            <div class="col-md-3 pl-1">
+                                <select class="form-select" formControlName="label" [disabled]="mode === 'view'"
+                                    [ngClass]="{
+         'invalid-left-border': phone.errors?.['labelRequired'] &&
+                   (phone.get('label')?.touched || phone.get('number')?.touched)
+       }">
+                                    <option value="">Etichetă</option>
+                                    <option>acasă</option>
+                                    <option>serviciu</option>
+                                    <option>birou</option>
+                                    <option>personal</option>
+                                    <option>urgențe</option>
+                                </select>
+                                <div class="text-danger mt-1" *ngIf="phone.errors?.['labelRequired'] &&
+                   (phone.get('label')?.touched || phone.get('number')?.touched)">
+                                    <small>Etichetă este obligatorie dacă numărul de telefon este completat</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <input class="form-control" formControlName="number" placeholder="Număr"
+                                    [readonly]="mode === 'view'"
+                                    [ngClass]="{'invalid-left-border' : phone.get('number')?.errors?.['pattern']}" />
+                                <div class="text-danger mt-1" *ngIf="phone.get('number')?.invalid &&
+                   phone.get('number')?.touched &&
+                   phone.get('number')?.value">
+                                    <small *ngIf="phone.get('number')?.errors?.['pattern']">Număr invalid</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <button *ngIf="mode !== 'view'" class="btn btn-danger btn-sm" style="min-height: 38px"
+                                    type="button" (click)="removePhone(i)">
+                                    Șterge telefon
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Buton adaugă -->
+                    <button *ngIf="mode !== 'view'" class="btn btn-secondary btn-sm mt-2" type="button"
+                        (click)="addPhone()">
+                        Adaugă telefon
+                    </button>
+                </div>
+            </div>
+
+            <div formGroupName="homeAdress" class="mt-3">
+                <h5>Adresă domiciliu</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Strada</label>
+                        <input class="form-control" formControlName="street" [readonly]="mode === 'view'" [ngClass]="{
+           'invalid-left-border': form.get('homeAdress.street')?.invalid &&
+                                  form.get('homeAdress.street')?.touched &&
+                                  form.get('homeAdress.street')?.value || 
+                                  form.errors?.addressPairInvalid
+         }" />
+                        <div *ngIf="form.get('homeAdress.street')?.invalid && form.get('homeAdress.street')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('homeAdress.street')?.errors?.['pattern']">
+                                Puteți adăuga doar litere, cratimă, spații și punct
+                            </small>
+                        </div>
+
+                        <div *ngIf="form.get('homeAdress.street')?.errors?.['addressRequired']"
+                            class="text-danger mt-1">
+                            <small>
+                                Vă rugăm completați strada, județul/sectorul și orașul.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Număr</label>
+                        <input class="form-control" formControlName="number" [readonly]="mode === 'view'" [ngClass]="{
+           'invalid-left-border': form.get('homeAdress.number')?.invalid &&
+                                  form.get('homeAdress.number')?.touched &&
+                                  form.get('homeAdress.number')?.value
+         }" />
+                        <div *ngIf="form.get('homeAdress.number')?.invalid && form.get('homeAdress.number')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('homeAdress.number')?.errors?.['pattern']">
+                                Puteți adăuga doar cifre.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Bloc</label>
+                        <input class="form-control" formControlName="block" [readonly]="mode === 'view'" [ngClass]="{
+           'invalid-left-border': form.get('homeAdress.block')?.invalid &&
+                                  form.get('homeAdress.block')?.touched &&
+                                  form.get('homeAdress.block')?.value
+         }" />
+                        <div *ngIf="form.get('homeAdress.block')?.invalid && form.get('homeAdress.block')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('homeAdress.block')?.errors?.['pattern']">
+                                Puteți adăuga doar litere și cifre.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3">
+                        <label>Etaj</label>
+                        <input class="form-control" formControlName="floor" [readonly]="mode === 'view'" [ngClass]="{
+      'invalid-left-border': form.get('homeAdress.floor')?.invalid &&
+                             form.get('homeAdress.floor')?.touched &&
+                             form.get('homeAdress.floor')?.value
+    }" />
+                        <div *ngIf="form.get('homeAdress.floor')?.invalid && form.get('homeAdress.floor')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('homeAdress.floor')?.errors?.['pattern']">Puteți adăuga doar cifre
+                                (maxim două).</small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Apartament</label>
+                        <input class="form-control" formControlName="apartment" [readonly]="mode === 'view'" [ngClass]="{
+      'invalid-left-border': form.get('homeAdress.apartment')?.invalid &&
+                             form.get('homeAdress.apartment')?.touched &&
+                             form.get('homeAdress.apartment')?.value
+    }" />
+                        <div *ngIf="form.get('homeAdress.apartment')?.invalid && form.get('homeAdress.apartment')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('homeAdress.apartment')?.errors?.['pattern']">Puteți adăuga între 1
+                                și 4 cifre.</small>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Județ/Sector</label>
+                        <input class="form-control" formControlName="district" [readonly]="mode === 'view'" [ngClass]="{
+      'invalid-left-border': form.get('homeAdress.district')?.invalid &&
+                             form.get('homeAdress.district')?.touched &&
+                             form.get('homeAdress.district')?.value ||
+                             form.errors?.addressPairInvalid
+    }" />
+                        <div *ngIf="form.get('homeAdress.district')?.invalid && form.get('homeAdress.district')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('homeAdress.district')?.errors?.['pattern']">Puteți adăuga doar
+                                litere și cifre.</small>
+                        </div>
+
+                        <div *ngIf="form.get('homeAdress.district')?.errors?.['addressRequired']"
+                            class="text-danger mt-1">
+                            <small>
+                                Vă rugăm completați strada, județul/sectorul și orașul.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Oraș</label>
+                        <input class="form-control" formControlName="city" [readonly]="mode === 'view'" [ngClass]="{
+      'invalid-left-border': form.get('homeAdress.city')?.invalid &&
+                             form.get('homeAdress.city')?.touched &&
+                             form.get('homeAdress.city')?.value || 
+                             form.errors?.addressPairInvalid
+    }" />
+                        <div *ngIf="form.get('homeAdress.city')?.invalid && form.get('homeAdress.city')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('homeAdress.city')?.errors?.['pattern']">Puteți adăuga doar litere,
+                                spații și cratimă.</small>
+                        </div>
+
+                        <div *ngIf="form.get('homeAdress.city')?.errors?.['addressRequired']" class="text-danger mt-1">
+                            <small>
+                                Vă rugăm completați strada, județul/sectorul și orașul.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" [disabled]="mode === 'view'" name="sameAsHome"
+                        [checked]="sameAsHome" (change)="onSameAsHomeChange(true)" id="sameYes" />
+                    <label class="form-check-label" for="sameYes">Adresa de reședință este aceeași cu adresa de
+                        domiciliu</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" [disabled]="mode === 'view'" name="sameAsHome"
+                        [checked]="!sameAsHome" (change)="onSameAsHomeChange(false)" id="sameNo" />
+                    <label class="form-check-label" for="sameNo">Adresa de reședință nu este aceeași cu adresa de
+                        domiciliu</label>
+                </div>
+            </div>
+
+            <div formGroupName="tempAdress" class="mt-4">
+                <h5>Adresă reședință</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Strada</label>
+                        <input class="form-control" formControlName="street" [readonly]="mode === 'view'" [ngClass]="{
+         'invalid-left-border': form.get('tempAdress.street')?.invalid &&
+                                form.get('tempAdress.street')?.touched &&
+                                form.get('tempAdress.street')?.value
+       }" />
+                        <div *ngIf="form.get('tempAdress.street')?.invalid && form.get('tempAdress.street')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('tempAdress.street')?.errors?.['pattern']">
+                                Puteți adăuga doar litere, cratimă, spații și punct
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Număr</label>
+                        <input class="form-control" formControlName="number" [readonly]="mode === 'view'" [ngClass]="{
+         'invalid-left-border': form.get('tempAdress.number')?.invalid &&
+                                form.get('tempAdress.number')?.touched &&
+                                form.get('tempAdress.number')?.value
+       }" />
+                        <div *ngIf="form.get('tempAdress.number')?.invalid && form.get('tempAdress.number')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('tempAdress.number')?.errors?.['pattern']">
+                                Puteți adăuga doar cifre.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Bloc</label>
+                        <input class="form-control" formControlName="block" [readonly]="mode === 'view'" [ngClass]="{
+         'invalid-left-border': form.get('tempAdress.block')?.invalid &&
+                                form.get('tempAdress.block')?.touched &&
+                                form.get('tempAdress.block')?.value
+       }" />
+                        <div *ngIf="form.get('tempAdress.block')?.invalid && form.get('tempAdress.block')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('tempAdress.block')?.errors?.['pattern']">
+                                Puteți adăuga doar litere și cifre.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3">
+                        <label>Etaj</label>
+                        <input class="form-control" formControlName="floor" [readonly]="mode === 'view'" [ngClass]="{
+      'invalid-left-border': form.get('tempAdress.floor')?.invalid &&
+                             form.get('tempAdress.floor')?.touched &&
+                             form.get('tempAdress.floor')?.value
+    }" />
+                        <div *ngIf="form.get('tempAdress.floor')?.invalid && form.get('tempAdress.floor')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('tempAdress.floor')?.errors?.['pattern']">
+                                Puteți adăuga doar cifre (maxim două).
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Apartament</label>
+                        <input class="form-control" formControlName="apartment" [readonly]="mode === 'view'" [ngClass]="{
+      'invalid-left-border': form.get('tempAdress.apartment')?.invalid &&
+                             form.get('tempAdress.apartment')?.touched &&
+                             form.get('tempAdress.apartment')?.value
+    }" />
+                        <div *ngIf="form.get('tempAdress.apartment')?.invalid && form.get('tempAdress.apartment')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('tempAdress.apartment')?.errors?.['pattern']">
+                                Puteți adăuga între 1 și 4 cifre.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Județ/Sector</label>
+                        <input class="form-control" formControlName="district" [readonly]="mode === 'view'" [ngClass]="{
+      'invalid-left-border': form.get('tempAdress.district')?.invalid &&
+                             form.get('tempAdress.district')?.touched &&
+                             form.get('tempAdress.district')?.value
+    }" />
+                        <div *ngIf="form.get('tempAdress.district')?.invalid && form.get('tempAdress.district')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('tempAdress.district')?.errors?.['pattern']">
+                                Puteți adăuga doar litere și cifre.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Oraș</label>
+                        <input class="form-control" formControlName="city" [readonly]="mode === 'view'" [ngClass]="{
+      'invalid-left-border': form.get('tempAdress.city')?.invalid &&
+                             form.get('tempAdress.city')?.touched &&
+                             form.get('tempAdress.city')?.value
+    }" />
+                        <div *ngIf="form.get('tempAdress.city')?.invalid && form.get('tempAdress.city')?.touched"
+                            class="text-danger mt-1">
+                            <small *ngIf="form.get('tempAdress.city')?.errors?.['pattern']">
+                                Puteți adăuga doar litere, spații și cratimă.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <label>Mențiuni</label>
+                <textarea class="form-control" formControlName="note" [readonly]="mode === 'view'"></textarea>
+            </div>
+
+            <div class="form-group mt-3 d-flex justify-content-end" *ngIf="mode !== 'view'">
+                <button type="submit" class="btn btn-primary m-2">Salvează</button>
+                <button type="button" class="btn btn-warning m-2" (click)="onCancel()">Renunță</button>
+            </div>
+        </form>
+    </div>
+</ng-container>
+
+<ng-template #noPatient>
+    <div class="alert alert-info  text-center customMarginTop text-black">
+        <h2>Selectează un pacient din listă pentru a vizualiza detaliile.</h2>
+    </div>
+</ng-template>

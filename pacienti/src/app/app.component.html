@@ -1,0 +1,17 @@
+<div class="d-flex justify-content-end align-items-center p-4">
+  <button *ngIf="mode !== 'edit'" class="btn btn-primary" (click)="addPatient()">Adaugă pacient</button>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-5 col-xl-5 col-xxl-5">
+      <app-patient-list (selectPatient)="selectPatient($event)" (editPatientEvent)="editPatient($event)">
+      </app-patient-list>
+    </div>
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-7 col-xl-7 col-xxl-7">
+      <app-patient-details [patient]="selectedPatient" [mode]="mode" (cancel)="cancelEditMode()"
+        (save)="savePatient($event)">
+      </app-patient-details>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+.patientList {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+qrcode {
+  width: 123px;
+  height: 123px;
+  display: block;
+}
+
+.qr-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(3px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-popup {
+  width: 123px;
+  height: 123px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  z-index: 10000;
+}
+
+::ng-deep .columnMenu {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+::ng-deep .columnMenu .mat-checkbox {
+  padding: 0 10px;
+}
+
+.mat-row:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.mat-paginator-page-size-select {
+  text-align: center;
+}

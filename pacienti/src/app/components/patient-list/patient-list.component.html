@@ -1,0 +1,80 @@
+<mat-form-field appearance="standard" class="w-100">
+    <mat-label>Filtru pacienți</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Nume, prenume, CNP">
+</mat-form-field>
+
+<div>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Configure Columns">
+        <mat-icon>settings</mat-icon>
+    </button>
+    <span class="ms-5">Configurare coloane</span>
+</div>
+<mat-menu #menu="matMenu" class="columnMenu">
+    <mat-checkbox *ngFor="let col of columnDefinitions" color="primary" [(ngModel)]="col.visible"
+        [checked]="col.visible" (click)="$event.stopPropagation()">
+        {{ col.label }}
+    </mat-checkbox>
+</mat-menu>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort class="w-100">
+
+        <ng-container matColumnDef="family">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nume</th>
+            <td mat-cell *matCellDef="let patient">{{ patient.name?.family }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="given">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Prenume</th>
+            <td mat-cell *matCellDef="let patient">{{ patient.name?.given }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="age">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vârstă</th>
+            <td mat-cell *matCellDef="let patient">{{ formatAge(patient.birthDate) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sex</th>
+            <td mat-cell *matCellDef="let patient">{{ patient.gender }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="identifier">
+            <th mat-header-cell *matHeaderCellDef>CNP</th>
+            <td mat-cell *matCellDef="let patient">{{ patient.identifier }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="phones">
+            <th mat-header-cell *matHeaderCellDef>Telefon</th>
+            <td mat-cell *matCellDef="let patient">
+                {{ formatPhones(patient.phones) }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Acțiuni</th>
+            <td mat-cell *matCellDef="let patient">
+                <button mat-button color="primary"
+                    (click)="editPatient(patient.id); $event.stopPropagation()">Edit</button>
+                <button mat-button color="warn"
+                    (click)="deletePatient(patient.id); $event.stopPropagation()">Delete</button>
+                <button mat-button (click)="showQr(patient); $event.stopPropagation()">QR</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="onSelect(row)"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">Niciun pacient nu se potrivește filtrului.</td>
+        </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 25]" showFirstLastButtons></mat-paginator>
+</div>
+
+<div class="qr-overlay" *ngIf="qrVisible" (click)="closeQr()">
+    <div class="qr-popup" (click)="$event.stopPropagation()">
+        <qrcode [qrdata]="qrValue" [errorCorrectionLevel]="'M'"></qrcode>
+    </div>
+</div>
