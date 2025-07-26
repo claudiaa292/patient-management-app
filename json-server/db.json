@@ -13,7 +13,7 @@
       "birthDate": "2025-07-08",
       "gender": "feminin",
       "note": "regtee",
-      "adress": {
+      "address": {
         "street": "rtetre",
         "number": "3",
         "block": "M21",
@@ -46,7 +46,7 @@
       "birthDate": "",
       "gender": "necunoscut",
       "note": "",
-      "adress": {
+      "address": {
         "street": "",
         "number": "",
         "block": "",
@@ -70,7 +70,7 @@
       "birthDate": "",
       "gender": "necunoscut",
       "note": "",
-      "adress": {
+      "address": {
         "street": "",
         "number": "",
         "block": "",
@@ -94,7 +94,7 @@
       "birthDate": "1992-11-15",
       "gender": "masculin",
       "note": "werw",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Lalelelor",
@@ -140,7 +140,7 @@
       "birthDate": "1994-11-15",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Lalelelor",
@@ -182,7 +182,7 @@
       "birthDate": "1992-11-15",
       "gender": "feminin",
       "note": "",
-      "adress": {
+      "address": {
         "street": "",
         "number": "",
         "block": "",
@@ -206,7 +206,7 @@
       "birthDate": "1993-11-15",
       "gender": "feminin",
       "note": "",
-      "adress": {
+      "address": {
         "street": "",
         "number": "",
         "block": "",
@@ -230,7 +230,7 @@
       "birthDate": "1992-11-15",
       "gender": "masculin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Brândușelor",
@@ -267,7 +267,7 @@
       "birthDate": "2065-57-57",
       "gender": "masculin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Calea Moșilor",
@@ -304,7 +304,7 @@
       "birthDate": "1992-11-15",
       "gender": "masculin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Teiului",
@@ -341,7 +341,7 @@
       "birthDate": "",
       "gender": "necunoscut",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Bujorului",
@@ -378,7 +378,7 @@
       "birthDate": "",
       "gender": "necunoscut",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Eroilor",
@@ -424,7 +424,7 @@
       "birthDate": "",
       "gender": "necunoscut",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Cireșilor",
@@ -466,7 +466,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Vișinilor",
@@ -508,7 +508,7 @@
       "birthDate": "",
       "gender": "necunoscut",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Zorilor",
@@ -554,7 +554,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Zorilor",
@@ -591,7 +591,7 @@
       "birthDate": "",
       "gender": "masculin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Unirii",
@@ -628,7 +628,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Independenței",
@@ -665,7 +665,7 @@
       "birthDate": "",
       "gender": "masculin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Soarelui",
@@ -702,7 +702,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Grădinilor",
@@ -739,7 +739,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Castanilor",
@@ -776,7 +776,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Castanilor",
@@ -813,7 +813,7 @@
       "birthDate": "",
       "gender": "altul",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Independenței",
@@ -850,7 +850,7 @@
       "birthDate": "",
       "gender": "masculin",
       "note": "",
-      "adress": {
+      "address": {
         "street": "",
         "number": "",
         "block": "",
@@ -874,7 +874,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Independenței",
@@ -911,7 +911,7 @@
       "birthDate": "1992-11-15",
       "gender": "masculin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Independenței",
@@ -948,7 +948,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "street": "Strada Soarelui",
           "number": "7",
@@ -975,7 +975,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Independenței",
@@ -1012,7 +1012,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Independenței",
@@ -1049,7 +1049,7 @@
       "birthDate": "",
       "gender": "masculin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "use": "home",
           "street": "Strada Unirii",
@@ -1086,7 +1086,7 @@
       "birthDate": "1992-11-15",
       "gender": "masculin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "street": "",
           "number": "",
@@ -1123,7 +1123,7 @@
       "birthDate": "1992-11-15",
       "gender": "masculin",
       "note": "hfghfhgf",
-      "adresses": [
+      "addresses": [
         {
           "street": "fffffff",
           "number": "2",
@@ -1165,7 +1165,7 @@
       "birthDate": "",
       "gender": "masculin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "street": "",
           "number": "",
@@ -1202,7 +1202,7 @@
       "birthDate": "",
       "gender": "feminin",
       "note": "",
-      "adresses": [
+      "addresses": [
         {
           "street": "",
           "number": "",

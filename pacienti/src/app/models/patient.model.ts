@@ -5,12 +5,12 @@ export interface PatientInfo {
   gender: GenderType;
   identifier?: string;                          
   phones?: PatientPhone[];              
-  adresses?: PatientAddress[];         
+  addresses?: PatientAddress[];         
   note?: string;                        
 }
 
 export interface PatientAddress {
-  use?: 'home' | 'temp'; // domiciliu permanent (homeAdress) si resedinta (tempAdress)
+  use?: 'home' | 'temp'; // domiciliu permanent (homeaddress) si resedinta (tempaddress)
   street?: string;         
   number?: string;        
   block?: string;          

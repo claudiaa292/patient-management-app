@@ -32,7 +32,7 @@ export class AppComponent {
       birthDate: '',
       gender: '',
       phones: [],
-      adresses: [
+      addresses: [
         {
           use: 'home',
           street: '',

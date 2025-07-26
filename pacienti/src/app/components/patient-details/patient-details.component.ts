@@ -52,7 +52,7 @@ export class PatientDetailsComponent implements OnInit {
     birthDate: [''],
     gender: ['', Validators.required],
     note: [''],
-    homeAdress: this.fb.group({
+    homeaddress: this.fb.group({
       street: ['', Validators.pattern(/^[A-Za-zĂăÂâÎîȘșȚț\s\-.]+$/)],
       number: ['', Validators.pattern(/^\d+$/)],
       block: ['', Validators.pattern(/^[A-Za-z0-9]+$/)],
@@ -61,7 +61,7 @@ export class PatientDetailsComponent implements OnInit {
       district: ['', Validators.pattern(/^[A-Za-zĂăÂâÎîȘșȚț0-9]+$/)],
       city: ['', Validators.pattern(/^[A-Za-zĂăÂâÎîȘșȚț\s\-]+$/)]
     }),
-    tempAdress: this.fb.group({
+    tempaddress: this.fb.group({
       street: ['', Validators.pattern(/^[A-Za-zĂăÂâÎîȘșȚț\s\-.]+$/)],
       number: ['', Validators.pattern(/^\d+$/)],
       block: ['', Validators.pattern(/^[A-Za-z0-9]+$/)],
@@ -78,7 +78,7 @@ export class PatientDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.sameAsHome) {
-      this.form.get('tempAdress')?.disable();
+      this.form.get('tempaddress')?.disable();
     }
   }
 
@@ -120,12 +120,12 @@ export class PatientDetailsComponent implements OnInit {
     if (this.form.valid) {
       const addresses: PatientAddress[] = [];
 
-      const home = formValues.homeAdress;
+      const home = formValues.homeaddress;
 
       if (home) addresses.push({ ...home, use: 'home' });
 
-      if (!this.sameAsHome && formValues.tempAdress) {
-        addresses.push({ ...formValues.tempAdress, use: 'temp' });
+      if (!this.sameAsHome && formValues.tempaddress) {
+        addresses.push({ ...formValues.tempaddress, use: 'temp' });
       }
 
       const fullPatient: PatientInfo = {
@@ -139,7 +139,7 @@ export class PatientDetailsComponent implements OnInit {
         birthDate: formValues.birthDate,
         gender: formValues.gender,
         note: formValues.note,
-        adresses: addresses,
+        addresses: addresses,
         phones: formValues.phones.filter((p: { number?: string }) => p.number?.trim() !== '')
       };
       this.save.emit(fullPatient);
@@ -167,8 +167,8 @@ export class PatientDetailsComponent implements OnInit {
   }
 
   patchForm(patient: PatientInfo): void {
-    const home = patient.adresses?.find((a: PatientAddress) => a.use === 'home') || {};
-    const residence = patient.adresses?.find((a: PatientAddress) => a.use === 'temp') || {};
+    const home = patient.addresses?.find((a: PatientAddress) => a.use === 'home') || {};
+    const residence = patient.addresses?.find((a: PatientAddress) => a.use === 'temp') || {};
 
     this.form.patchValue({
       family: patient.name.family,
@@ -178,17 +178,17 @@ export class PatientDetailsComponent implements OnInit {
       birthDate: patient.birthDate,
       gender: patient.gender,
       note: patient.note,
-      homeAdress: home
+      homeaddress: home
     });
 
     this.sameAsHome = Object.keys(residence).length === 0;
 
     if (this.sameAsHome) {
-      this.form.get('tempAdress')?.patchValue(home);
-      this.form.get('tempAdress')?.disable();
+      this.form.get('tempaddress')?.patchValue(home);
+      this.form.get('tempaddress')?.disable();
     } else {
-      this.form.get('tempAdress')?.patchValue(residence);
-      this.form.get('tempAdress')?.enable();
+      this.form.get('tempaddress')?.patchValue(residence);
+      this.form.get('tempaddress')?.enable();
     }
 
     this.phones.clear();
@@ -248,8 +248,8 @@ export class PatientDetailsComponent implements OnInit {
 
 
 addressPairValidator(form: FormGroup): ValidationErrors | null {
-  const address = form.get('homeAdress') as FormGroup;
-  const tempAddress = form.get('tempAdress')
+  const address = form.get('homeaddress') as FormGroup;
+  const tempAddress = form.get('tempaddress')
   if (!address) return null;
   if (!tempAddress) return null;
   const values = address.value;
@@ -288,8 +288,8 @@ addressPairValidator(form: FormGroup): ValidationErrors | null {
   onSameAsHomeChange(same: boolean): void {
     this.sameAsHome = same;
 
-    const homeGroup = this.form.get('homeAdress') as FormGroup;
-    const residenceGroup = this.form.get('tempAdress') as FormGroup;
+    const homeGroup = this.form.get('homeaddress') as FormGroup;
+    const residenceGroup = this.form.get('tempaddress') as FormGroup;
 
     if (same) {
       residenceGroup.patchValue(homeGroup.getRawValue());
