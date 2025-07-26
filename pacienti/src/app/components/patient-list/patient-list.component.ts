@@ -1,4 +1,10 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,7 +14,7 @@ import { DALService } from '../../services/DAL.service';
 @Component({
   selector: 'app-patient-list',
   templateUrl: './patient-list.component.html',
-  styleUrls: ['./patient-list.component.scss']
+  styleUrls: ['./patient-list.component.scss'],
 })
 export class PatientListComponent implements OnInit {
   @Output() selectPatient = new EventEmitter<PatientInfo>();
@@ -20,29 +26,30 @@ export class PatientListComponent implements OnInit {
   qrValue = '';
 
   columnDefinitions = [
-  { def: 'family', label: 'Nume', visible: true },
-  { def: 'given', label: 'Prenume', visible: true },
-  { def: 'age', label: 'Vârstă', visible: false },  
-  { def: 'gender', label: 'Sex', visible: true },
-  { def: 'identifier', label: 'CNP', visible: false },
-  { def: 'phones', label: 'Telefon', visible: false },
-  { def: 'actions', label: 'Acțiuni', visible: true }
-];
+    { def: 'family', label: 'Nume', visible: true },
+    { def: 'given', label: 'Prenume', visible: true },
+    { def: 'age', label: 'Vârstă', visible: false },
+    { def: 'gender', label: 'Sex', visible: true },
+    { def: 'identifier', label: 'CNP', visible: false },
+    { def: 'phones', label: 'Telefon', visible: false },
+    { def: 'actions', label: 'Acțiuni', visible: true },
+  ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dalService: DALService) { }
+  constructor(private dalService: DALService) {}
 
   ngOnInit(): void {
     this.loadPatients();
     this.dataSource.filterPredicate = this.customFilter.bind(this);
     this.dataSource.sortingDataAccessor = this.customSorting.bind(this);
-
   }
 
   getDisplayedColumns(): string[] {
-    return this.columnDefinitions.filter(col => col.visible).map(col => col.def);
+    return this.columnDefinitions
+      .filter((col) => col.visible)
+      .map((col) => col.def);
   }
 
   async loadPatients() {
@@ -58,9 +65,9 @@ export class PatientListComponent implements OnInit {
   }
 
   async deletePatient(id: string) {
-    if (confirm("Sunteți sigur că doriți să ștergeți pacientul?")) {
+    if (confirm('Sunteți sigur că doriți să ștergeți pacientul?')) {
       await this.dalService.deletePatients(id);
-      this.loadPatients(); 
+      this.loadPatients();
     }
   }
 
@@ -84,7 +91,8 @@ export class PatientListComponent implements OnInit {
 
     const notYetBirthday =
       today.getMonth() < dateOfBirth.getMonth() ||
-      (today.getMonth() === dateOfBirth.getMonth() && today.getDate() < dateOfBirth.getDate());
+      (today.getMonth() === dateOfBirth.getMonth() &&
+        today.getDate() < dateOfBirth.getDate());
 
     if (notYetBirthday) {
       years--;
@@ -127,18 +135,21 @@ export class PatientListComponent implements OnInit {
       default:
         return (patient as any)[property];
     }
-}
+  }
 
-  formatPhones(phones?: { label: string, number: string }[]): string {
-    return phones?.length? phones.map(p => `${p.label}: ${p.number}`).join(', '): 'fără telefon';
+  formatPhones(phones?: { label: string; number: string }[]): string {
+    return phones?.length
+      ? phones.map((p) => `${p.label}: ${p.number}`).join(', ')
+      : 'fără telefon';
   }
 
   getAgeValue(birthDate?: string): number {
-  const d = birthDate ? new Date(birthDate) : null;
-  if (!d) return -1;
-  const today = new Date();
-  const age = today.getFullYear() - d.getFullYear();
-  return (today < new Date(today.getFullYear(), d.getMonth(), d.getDate())) ? age - 1 : age;
-}
-
+    const d = birthDate ? new Date(birthDate) : null;
+    if (!d) return -1;
+    const today = new Date();
+    const age = today.getFullYear() - d.getFullYear();
+    return today < new Date(today.getFullYear(), d.getMonth(), d.getDate())
+      ? age - 1
+      : age;
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
-import { PatientPhone, PatientInfo, PatientAddress } from '../..//models/patient.model';
+import { PatientPhone, PatientInfo, PatientAddress } from '../../models/patient.model';
 
 @Component({
   selector: 'app-patient-details',
@@ -230,7 +230,6 @@ export class PatientDetailsComponent implements OnInit {
   }
 
   if (!onlyOneFilled) {
-    // elimină eroarea dacă există, de la ambele
     if (familyCtrl?.hasError('namePairInvalid')) {
       const errs = familyCtrl.errors || {};
       delete errs['namePairInvalid'];
@@ -249,14 +248,11 @@ export class PatientDetailsComponent implements OnInit {
 
 addressPairValidator(form: FormGroup): ValidationErrors | null {
   const address = form.get('homeaddress') as FormGroup;
-  const tempAddress = form.get('tempaddress')
+
   if (!address) return null;
-  if (!tempAddress) return null;
+
   const values = address.value;
-  const tempAddressValues = tempAddress.value;
-
   const isFilled = Object.values(values).some((val: any) => val && val.toString().trim() !== '');
-
   const required = ['street', 'district', 'city'];
   
   let invalid = false;
@@ -283,7 +279,6 @@ addressPairValidator(form: FormGroup): ValidationErrors | null {
 
   return invalid ? { addressPairInvalid: true } : null;
 }
-
 
   onSameAsHomeChange(same: boolean): void {
     this.sameAsHome = same;

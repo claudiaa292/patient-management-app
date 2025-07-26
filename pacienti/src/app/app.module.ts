@@ -4,11 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QRCodeModule } from 'angularx-qrcode';
-import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-
 import { CustomPaginatorIntl } from './utils/custom-paginator-intl';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
@@ -22,18 +23,14 @@ import { PatientDetailsComponent } from './components/patient-details/patient-de
 import { PatientListComponent } from './components/patient-list/patient-list.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PatientListComponent,
-    PatientDetailsComponent,
-  ],
+  declarations: [AppComponent, PatientListComponent, PatientDetailsComponent],
   imports: [
     QRCodeModule,
     MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule, 
-     MatMenuModule,
+    MatInputModule,
+    MatMenuModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
@@ -45,9 +42,7 @@ import { PatientListComponent } from './components/patient-list/patient-list.com
     FormsModule,
     BrowserAnimationsModule,
   ],
-  providers: [
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
-  ],
-  bootstrap: [AppComponent]
+  providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

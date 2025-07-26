@@ -18,7 +18,7 @@
                         <small *ngIf="form.get('family')?.errors?.['required']">Numele este obligatoriu dacă prenumele
                             este completat.</small>
                         <small *ngIf="form.get('family')?.errors?.['pattern']">
-                            Numele poate conține doar litere, spații și cratimă (ex: Popescu-Ion).
+                            Numele poate conține doar litere, spații și cratimă.
                         </small>
                         <small *ngIf="form.get('family')?.errors?.['namePairInvalid']">
                             Vă rugam completați ambele câmpuri: nume și prenume.
@@ -144,7 +144,6 @@
 
                     </div>
 
-                    <!-- Buton adaugă -->
                     <button *ngIf="mode !== 'view'" class="btn btn-secondary btn-sm mt-2" type="button"
                         (click)="addPhone()">
                         Adaugă telefon
