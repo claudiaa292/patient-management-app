@@ -32,6 +32,8 @@ qrcode {
 }
 
 ::ng-deep .columnMenu {
+  width: 20vw;
+  height: 40vh;
   display: flex;
   flex-direction: column;
   padding: 10px;
