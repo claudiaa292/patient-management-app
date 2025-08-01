@@ -11,6 +11,7 @@ export class PatientDetailsComponent implements OnInit {
   private _mode: 'view' | 'edit' | 'add' = 'view';
   private _patient: PatientInfo | undefined;
   sameAsHome: boolean = false;
+  today: string = new Date().toISOString().split('T')[0];
 
   @Output() edit = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
@@ -117,6 +118,7 @@ export class PatientDetailsComponent implements OnInit {
     this.form.markAllAsTouched();
 
     this.phones.controls.forEach(control => control.markAllAsTouched());
+    
     if (this.form.valid) {
       const addresses: PatientAddress[] = [];
 

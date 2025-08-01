@@ -19,6 +19,7 @@ import { DALService } from '../../services/DAL.service';
 export class PatientListComponent implements OnInit {
   @Output() selectPatient = new EventEmitter<PatientInfo>();
   @Output() editPatientEvent = new EventEmitter<PatientInfo>();
+  @Output() deletePatientEvent = new EventEmitter<string>();
 
   dataSource = new MatTableDataSource<PatientInfo>();
   searchTerm: string = '';
@@ -68,7 +69,9 @@ export class PatientListComponent implements OnInit {
     if (confirm('Sunteți sigur că doriți să ștergeți pacientul?')) {
       await this.dalService.deletePatients(id);
       this.loadPatients();
+       this.deletePatientEvent.emit(id);
     }
+
   }
 
   async editPatient(id: string) {
@@ -103,7 +106,7 @@ export class PatientListComponent implements OnInit {
 
   showQr(patient: PatientInfo) {
     const id = patient.id;
-    const cnp = patient.identifier?.slice(7, 11) ?? '????';
+    const cnp = patient.identifier?.slice(7, 12) ?? '????';
     const gender = (patient.gender ?? '').toUpperCase();
     this.qrValue = `https://example.com/${id}|${cnp}|${gender}`;
     this.qrVisible = true;

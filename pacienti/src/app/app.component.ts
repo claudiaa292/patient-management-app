@@ -65,7 +65,8 @@ export class AppComponent {
   }
 
   cancelEditMode(): void {
-    this.mode = 'view';
+      this.mode = 'view';
+      this.selectedPatient = undefined; 
   }
 
   refreshList(): void {
@@ -86,4 +87,10 @@ export class AppComponent {
     }
     this.mode = 'view';
   }
+
+ onPatientDeleted(deletedId: string): void {
+    if (this.selectedPatient?.id === deletedId) {
+    this.selectedPatient = undefined; 
+    this.mode = 'view';
+}}
 }

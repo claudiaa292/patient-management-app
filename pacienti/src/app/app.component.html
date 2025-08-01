@@ -5,7 +5,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-7 col-sm-7 col-md-7 col-lg-5 col-xl-5 col-xxl-5">
-      <app-patient-list (selectPatient)="selectPatient($event)" (editPatientEvent)="editPatient($event)">
+      <app-patient-list (selectPatient)="selectPatient($event)" (editPatientEvent)="editPatient($event)" (deletePatientEvent)="onPatientDeleted($event)">
       </app-patient-list>
     </div>
 

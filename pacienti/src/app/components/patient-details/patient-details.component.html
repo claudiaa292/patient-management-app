@@ -68,14 +68,14 @@
          }" (input)="updateBirthDateFromIdentifier()" />
                     <div *ngIf="form.get('identifier')?.invalid && form.get('identifier')?.touched"
                         class="text-danger mt-1">
-                        <small *ngIf="form.get('identifier')?.errors?.['pattern']">CNP-ul trebuie sa aiba 13
+                        <small *ngIf="form.get('identifier')?.errors?.['pattern']">CNP-ul trebuie să aibă 13
                             cifre.</small>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <label for="birthDate">Data nașterii</label>
-                    <input id="birthDate" type="date" class="form-control" formControlName="birthDate"
+                    <input id="birthDate" type="date" class="form-control" formControlName="birthDate"  [max]="today"
                         [readonly]="mode === 'view'" />
                 </div>
 
@@ -119,7 +119,7 @@
                                 </select>
                                 <div class="text-danger mt-1" *ngIf="phone.errors?.['labelRequired'] &&
                    (phone.get('label')?.touched || phone.get('number')?.touched)">
-                                    <small>Etichetă este obligatorie dacă numărul de telefon este completat</small>
+                                    <small>Eticheta este obligatorie dacă numărul de telefon este completat</small>
                                 </div>
                             </div>
 
