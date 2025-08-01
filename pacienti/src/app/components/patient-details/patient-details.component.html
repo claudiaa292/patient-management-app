@@ -1,8 +1,8 @@
 <ng-container *ngIf="patient || mode === 'add'; else noPatient">
     <div class="container mt-3">
-        <h4 class="text-center mb-4" *ngIf="mode === 'view'">Detalii pacient</h4>
-        <h4 class="text-center mb-4" *ngIf="mode === 'edit'">Editare pacient</h4>
-        <h4 class="text-center mb-4" *ngIf="mode === 'add'">Adăugare pacient</h4>
+        <h2 class="text-center mb-4 formHeading" *ngIf="mode === 'view'">Detalii pacient</h2>
+        <h2 class="text-center mb-4 formHeading" *ngIf="mode === 'edit'">Editare pacient</h2>
+        <h2 class="text-center mb-4 formHeading" *ngIf="mode === 'add'">Adăugare pacient</h2>
 
         <form [formGroup]="form" (ngSubmit)="onSave()">
             <div class="row">
