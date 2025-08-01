@@ -64,7 +64,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="onSelect(row)"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()" (click)="onSelect(row)"  [class.selectedRow]="row.id === selectedPatientId"></tr>
 
         <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="6">Niciun pacient nu se potrivește filtrului.</td>

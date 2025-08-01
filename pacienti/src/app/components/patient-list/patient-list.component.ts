@@ -21,6 +21,7 @@ export class PatientListComponent implements OnInit {
   @Output() editPatientEvent = new EventEmitter<PatientInfo>();
   @Output() deletePatientEvent = new EventEmitter<string>();
 
+  selectedPatientId: string | null = null;
   dataSource = new MatTableDataSource<PatientInfo>();
   searchTerm: string = '';
   qrVisible = false;
@@ -76,6 +77,7 @@ export class PatientListComponent implements OnInit {
 
   async editPatient(id: string) {
     const patient = await this.dalService.getPatient(id);
+    this.selectedPatientId = id;
     this.editPatientEvent.emit(patient);
   }
 
